@@ -27,8 +27,14 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
 };
+const account5 = {
+  owner: 'Guest User',
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 5555,
+};
 
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -43,6 +49,7 @@ const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
 
 const btnLogin = document.querySelector('.login__btn');
+const btnLoginGuest = document.querySelector('.login__btn__guest');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
@@ -136,6 +143,22 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
+btnLoginGuest.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find((acc) => acc.username === 'gu');
+  if (currentAccount?.pin === 5555) {
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    // inputLoginUsername.value = inputLoginPin.value = '';
+    // inputLoginPin.blur();
+    containerApp.style.opacity = '100';
+    displayMovements(currentAccount.movements);
+    calcDisplayBalance(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
+  }
+});
+
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   // Check if account exists
@@ -164,4 +187,29 @@ btnTransfer.addEventListener('click', function (e) {
   //Get input value, append in movement container as positive
   calcDisplaySummary(currentAccount);
   calcDisplayBalance(currentAccount.movements);
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    // updateUI(currentAccount);
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+    calcDisplayBalance(currentAccount.movements);
+
+    // Display summary
+    calcDisplaySummary(currentAccount.movements);
+  }
+  inputLoanAmount.value = '';
 });

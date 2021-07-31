@@ -74,7 +74,24 @@ nav {
   cursor: pointer;
   transition: all 0.3s;
 }
-
+.login__btn__guest {
+  border: none;
+  background: rgb(63, 209, 63);
+  font-size: 1.8rem;
+  padding: 0 1rem;
+  border-radius: 40px;
+  margin-right: 5rem;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.login__btn__guest:hover,
+.login__btn__guest:focus,
+.btn--sort:hover,
+.btn--sort:focus {
+  outline: none;
+  background: rgb(70, 230, 70);
+}
 .login__btn:hover,
 .login__btn:focus,
 .btn--sort:hover,
